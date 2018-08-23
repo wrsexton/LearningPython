@@ -12,19 +12,22 @@ c = con.cursor()
 try:
     c.execute('''
     CREATE TABLE myths
-    (name text)
+    (name text description text)
     ''')
 except Error as e:
     print('\nReady to enter some more mythical creatures?\n')#(e)
 
 # collect mythical creature data from user and store in database
 mythName = ''
+mythDesc = ''
 while mythName.lower() != 'q':
     mythName = input("Enter a cool mythical creature (q to quit): ")
-    if mythName.lower() != 'q':
-        c.execute('''
-        INSERT INTO myths VALUES ('{}')
-        '''.format(mythName))
+    if mythName.lower() == 'q':
+        break
+    mythDesc = input("Describe that mythical creature: ")
+    c.execute('''
+    INSERT INTO myths VALUES ('{}, {}')
+    '''.format(mythName, mythDesc))
 
 # save data
 con.commit()
