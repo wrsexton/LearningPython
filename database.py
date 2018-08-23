@@ -32,7 +32,7 @@ con.commit()
 print("\nLook at all of these mythical creatures you know: ")
 
 # print data
-for row in c.execute('SELECT * FROM myths').fetchall():
+for row in c.execute('SELECT * FROM myths ORDER BY name').fetchall():
     print(row)
 
 # close connection
