@@ -12,7 +12,7 @@ c = con.cursor()
 try:
     c.execute('''
     CREATE TABLE myths
-    (name text description text)
+    (name text, description text)
     ''')
 except Error as e:
     print('\nReady to enter some more mythical creatures?\n')#(e)
@@ -24,19 +24,22 @@ while mythName.lower() != 'q':
     mythName = input("Enter a cool mythical creature (q to quit): ")
     if mythName.lower() == 'q':
         break
+    if not mythName:
+        print("You didn't enter anything!")
+        continue
     mythDesc = input("Describe that mythical creature: ")
     c.execute('''
-    INSERT INTO myths VALUES ('{}, {}')
+    INSERT INTO myths (name, description) VALUES ('{0}', '{1}')
     '''.format(mythName, mythDesc))
 
 # save data
 con.commit()
 
-print("\nLook at all of these mythical creatures you know: ")
+print("\nLook at all of these mythical creatures you know: \n")
 
 # print data
-for row in c.execute('SELECT * FROM myths ORDER BY name').fetchall():
-    print(row)
+for row in c.execute('SELECT name, description FROM myths ORDER BY name').fetchall():
+    print('|  {0}  --  {1}'.format(row[0], row[1]))
 
 # close connection
 con.close()
